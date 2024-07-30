@@ -35,7 +35,6 @@ public class DictionaryCommandLine {
         for (Word word : results) {
             System.out.println(word.getWordTarget() + ": " + word.getWordExplain());
         }
-        scanner.close();
     }
 
     public void dictionaryAdvanced() {
