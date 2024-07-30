@@ -1,104 +1,65 @@
 package TuDienTiengAnh;
 
-import java.io.*;
 import java.util.Scanner;
 
-public class DictionaryManagement {
-    private Dictionary dictionary;
+public class Main {
+    public static void main(String[] args) {
+        Dictionary dict = new Dictionary(); // Khởi tạo từ điển mới
+        DictionaryManagement dictManager = new DictionaryManagement(dict); // Quản lý từ điển
+        DictionaryCommandLine dictCmd = new DictionaryCommandLine(dictManager); // Giao diện dòng lệnh cho từ điển
 
-    public DictionaryManagement(Dictionary dictionary) {
-        this.dictionary = dictionary;
-    }
+        Scanner scanner = new Scanner(System.in); // Scanner để đọc input từ bàn phím
+        boolean exit = false; // Biến để kiểm soát việc thoát khỏi vòng lặp
 
-    public Dictionary getDictionary() {
-        return dictionary;
-    }
+        while (!exit) {
+            System.out.println("\nWelcome to My Application!");
+            System.out.println("[0] Exit");
+            System.out.println("[1] Add");
+            System.out.println("[2] Remove");
+            System.out.println("[3] Update");
+            System.out.println("[4] Display");
+            System.out.println("[5] Lookup");
+            System.out.println("[6] Search");
+            System.out.println("[7] Import form file");
+            System.out.println("[8] Export to file");
+            System.out.print("Your action: ");
 
-    public void addWord(String english, String vietnamese) {
-        dictionary.addWord(new Word(english, vietnamese));
-    }
+            int choice = scanner.nextInt(); // Đọc lựa chọn của người dùng
+            scanner.nextLine();  // Consume newline left-over
 
-    public void removeWord(String wordTarget) {
-        boolean removed = dictionary.removeWord(wordTarget);
-        if (!removed) {
-            System.out.println("Word not found!");
-        } else {
-            System.out.println("Word removed successfully!");
-        }
-    }
-
-    public void updateWord(String wordTarget, String newMeaning) {
-        boolean updated = dictionary.updateWord(wordTarget, newMeaning);
-        if (!updated) {
-            System.out.println("Word not found for update!");
-        } else {
-            System.out.println("Word updated successfully!");
-        }
-    }
-
-    public void dictionaryLookup() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the word to lookup: ");
-        String wordTarget = scanner.nextLine();
-        dictionary.getWords().stream()
-            .filter(w -> w.getWordTarget().equalsIgnoreCase(wordTarget))
-            .findFirst()
-            .ifPresentOrElse(
-                w -> System.out.println("Meaning: " + w.getWordExplain()),
-                () -> System.out.println("Word not found!")
-            );
-        scanner.close();
-    }
-
-    public void insertFromFile(String filePath) {
-        try (Scanner fileScanner = new Scanner(new File(filePath))) {
-            while (fileScanner.hasNextLine()) {
-                String line = fileScanner.nextLine();
-                String[] parts = line.split("\\s+", 2);
-                if (parts.length == 2) {
-                    addWord(parts[0], parts[1]);
-                }
-            }
-            System.out.println("Words imported successfully!");
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + e.getMessage());
-        }
-    }
-
-    public void dictionaryExportToFile(String fileName) {
-        try (PrintWriter writer = new PrintWriter(new File(fileName))) {
-            for (Word word : dictionary.getWords()) {
-                writer.println(word.getWordTarget() + " " + word.getWordExplain());
-            }
-            writer.flush();
-            System.out.println("Words exported successfully!");
-        } catch (FileNotFoundException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
-        }
-    }
-    
-    public void insertFromCommandLine() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the number of words to add: ");
-        int numberOfGroups = Integer.parseInt(scanner.nextLine());
-        for (int i = 0; i < numberOfGroups; i++) {
-            System.out.print("Enter English words separated by commas: ");
-            String englishInput = scanner.nextLine();
-            System.out.print("Enter Vietnamese meanings separated by commas: ");
-            String vietnameseInput = scanner.nextLine();
-
-            String[] englishWords = englishInput.split(",\\s*");
-            String[] vietnameseMeanings = vietnameseInput.split(",\\s*");
-
-            if (englishWords.length != vietnameseMeanings.length) {
-                System.out.println("Error: The number of English words and Vietnamese meanings do not match.");
-                continue;
-            }
-
-            for (int j = 0; j < englishWords.length; j++) {
-                addWord(englishWords[j], vietnameseMeanings[j]);
+            switch (choice) {
+                case 0:
+                    exit = true; // Nếu chọn 0, sẽ thoát khỏi vòng lặp
+                    break;
+                case 1:
+                    dictCmd.dictionaryAdvanced();
+                    break;
+                case 2:
+                    dictCmd.dictionaryAdvanced();
+                    break;
+                case 3:
+                    dictCmd.dictionaryAdvanced();
+                    break;
+                case 4:
+                    dictCmd.dictionaryAdvanced();
+                    break;
+                case 5:
+                    dictCmd.dictionaryAdvanced();
+                    break;
+                case 6:
+                    dictCmd.dictionaryAdvanced();
+                    break;
+                case 7:
+                    dictCmd.dictionaryAdvanced();
+                    break;
+                case 8:
+                    dictCmd.dictionaryAdvanced();
+                    break;
+                default:
+                    System.out.println("Action not supported"); // Nếu nhập không đúng
+                    break;
             }
         }
+        scanner.close(); // Đóng scanner sau khi thoát khỏi vòng lặp
     }
-
 }
