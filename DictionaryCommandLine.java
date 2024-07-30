@@ -38,17 +38,6 @@ public class DictionaryCommandLine {
         scanner.close();
     }
 
-    public void dictionaryBasic(int num) {
-    	if(num == 1) {
-    		dictManager.insertFromCommandLine();
-    		return;
-    	}
-    	else if(num == 4) {
-    		showAllWords();
-    		return;
-    	}
-    }
-
     public void dictionaryAdvanced() {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
